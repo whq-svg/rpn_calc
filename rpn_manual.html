@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <title>rpn_manual.nim</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>🐳</text></svg>">
+  <meta content="text/html; charset=utf-8" http-equiv="content-type">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <meta content="nimib 0.3.12" name="generator">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+  <link rel="stylesheet" media="(prefers-color-scheme: dark)"
+  href="https://cdn.jsdelivr.net/gh/highlightjs/highlight.js/src/styles/night-owl.css">
+<link rel="stylesheet" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"
+  href="https://cdn.jsdelivr.net/gh/highlightjs/highlight.js/src/styles/atom-one-light.css">
+    <script src="https://cdn.jsdelivr.net/gh/pietroppeter/nimib@main/assets/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+
+  <style>
+.nb-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nb-small {
+  font-size: 0.8rem;
+}
+button.nb-small {
+  float: right;
+  padding: 2px;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+section#source {
+  display:none
+}
+pre > code {
+  font-size: 1.2em;
+}
+.nb-output {
+  line-height: 1.15;
+}
+figure {
+  margin: 2rem 0;
+}
+figcaption {
+  text-align: center;
+}
+  
+</style>
+  
+</head>
+<body>
+<header>
+<div class="nb-box">
+  <span><a href=".">🏡</a></span>
+  <span><code>rpn_manual.nim</code></span>
+  <span><a href="https://github.com/whq/rpn_calc"><svg aria-hidden="true" width="1.2em" height="1.2em" style="vertical-align: middle;" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59c.4.07.55-.17.55-.38c0-.19-.01-.82-.01-1.49c-2.01.37-2.53-.49-2.69-.94c-.09-.23-.48-.94-.82-1.13c-.28-.15-.68-.52-.01-.53c.63-.01 1.08.58 1.23.82c.72 1.21 1.87.87 2.33.66c.07-.52.28-.87.51-1.07c-1.78-.2-3.64-.89-3.64-3.95c0-.87.31-1.59.82-2.15c-.08-.2-.36-1.02.08-2.12c0 0 .67-.21 2.2.82c.64-.18 1.32-.27 2-.27c.68 0 1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82c.44 1.1.16 1.92.08 2.12c.51.56.82 1.27.82 2.15c0 3.07-1.87 3.75-3.65 3.95c.29.25.54.73.54 1.48c0 1.07-.01 1.93-.01 2.2c0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z" fill="#000"></path></svg></a></span>
+</div>
+<hr>
+</header><main>
+<style>
+pre code { border-radius: 4px 4px 0 0; }
+pre { border: 1px solid #809eb7; border-radius: 4px 4px 0 0; margin-bottom: 0; }
+pre.nb-output { border: 1px solid #809eb7; border-radius: 0 0 8px 8px; border-top: none;
+  padding: 0.8em; margin-top: 0; overflow-x: auto; }
+</style>
+<h1>C++ 逆波兰计算器：从原理到实现的完整技术指南</h1>
+<p>=================================================
+<br></p>
+<div style="text-align: center; color: #666; font-style: italic;">
+  一份涵盖计算机科学理论、软件工程实践与现代 C++ 编程范式的综合性文档
+</div>
+<br>
+> "栈是计算机科学中最优雅的数据结构之一，它以其简单的 LIFO 原则解决了复杂的计算问题。"  
+> —— 唐纳德·克努特，《计算机程序设计艺术》
+<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2em; border-radius: 12px; margin: 2em 0;">
+<h3 style="color: white; margin-top: 0;">📋 文档目标</h3>
+<p>本技术文档旨在为读者提供逆波兰计算器实现的完整知识体系，涵盖：</p >
+<ul>
+<li>🎯 <strong>理论基础</strong>：逆波兰表示法的数学原理与计算模型</li>
+<li>🔧 <strong>工程实践</strong>：现代 C++ 编程范式与设计模式应用</li>
+<li>🛡️ <strong>健壮性设计</strong>：异常安全、错误处理与软件可靠性</li>
+<li>⚡ <strong>性能优化</strong>：算法复杂度分析与代码优化策略</li>
+<li>🎨 <strong>用户体验</strong>：交互式界面设计与用户友好性考量</li>
+</ul>
+</div>
+<h2>目录:</h2>
+<ol>
+<li>&lt;a href=     * <a href="#理论基础与计算模型">理论基础与计算模型</a ></li>
+<li>&lt;a href=</li>
+</ol>
+<p><a name="引言与背景知识"></a >
+<br></p>
+<h3>引言与背景知识</h3>
+<hr />
+<h2>1.1 逆波兰表示法的历史渊源</h2>
+<p>逆波兰表示法（Reverse Polish Notation, RPN）由波兰数学家 <strong>扬·武卡谢维奇</strong>（Jan Łukasiewicz）于1920年代提出，是数学表达范式的重要突破。其核心价值在于消除了中缀表达式中的歧义性，为计算机科学的发展奠定了理论基础。</p>
+<h3>1.1.1 数学表达式的演进</h3>
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1em; margin: 2em 0;">
+<div style="background: #f8f9fa; padding: 1em; border-radius: 8px;">
+<h4>中缀表示法</h4>
+<code>(3 + 4) × 5 - 6</code>
+<p style="font-size: 0.9em; color: #666;">需要括号明确优先级</p >
+</div>
+<div style="background: #f8f9fa; padding: 1em; border-radius: 8px;">
+<h4>前缀表示法</h4>
+<code>- × + 3 4 5 6</code>
+<p style="font-size: 0.9em; color: #666;">运算符在前，波兰表示法</p >
+</div>
+<div style="background: #f8f9fa; padding: 1em; border-radius: 8px;">
+<h4>后缀表示法</h4>
+<code>3 4 + 5 × 6 -</code>
+<p style="font-size: 0.9em; color: #666;">运算符在后，逆波兰表示法</p >
+</div>
+</div>
+<p><a name="理论基础与计算模型"></a >
+<br></p>
+<h4>理论基础与计算模型</h4>
+<hr />
+<div style="background: #fff8e1; border: 1px solid #ffd54f; border-radius: 8px; padding: 1.5em; margin: 1.5em 0;">
+<p>📐 <strong>定理 - 逆波兰表达式的计算正确性</strong>:</p>
+<p>对于任意合法的逆波兰表达式 <strong>E</strong>，存在唯一的计算序列使得：
+<br><br>
+<strong>计算结果 = Evaluate(E, ∅)</strong>
+<br><br>
+其中 Evaluate 函数定义如下：</p>
+  <ul>
+  <li>Evaluate(数字, 栈) = 将数字压入栈</li>
+  <li>Evaluate(运算符, 栈) = 弹出栈顶两个元素，执行运算，将结果压回栈</li>
+  <li>Evaluate(ε, 栈) = 栈顶元素（ε 表示空表达式）</li>
+  </ul>
+  
+</div>
+<h3>1.2.2 计算复杂度分析</h3>
+<p>对于包含 n 个标记（token）的逆波兰表达式：
+| 操作类型 | 时间复杂度 | 空间复杂度 | 说明 |
+|---------|-----------|-----------|------|
+| 词法分析 | O(n) | O(1) | 单次遍历 |
+| 栈操作 | O(n) | O(n) | 最坏情况下栈深度为 n/2 |
+| 错误检测 | O(n) | O(1) | 同步进行 |
+| <strong>总体</strong> | <strong>O(n)</strong> | <strong>O(n)</strong> | <strong>线性复杂度</strong> |</p>
+<p><a name="项目架构与设计理念"></a >
+<br></p>
+<h3>项目架构与设计理念</h3>
+<hr />
+<h2>2.1 软件架构概览</h2>
+<p>我们的 C++ 逆波兰计算器采用 <strong>分层架构模式</strong>，将系统划分为四个逻辑层次，每层负责特定的功能职责：</p>
+<div style="background: white; border: 2px solid #e9ecef; border-radius: 12px; padding: 2em; margin: 2em 0;">
+<div style="display: grid; grid-template-columns: 1fr 3fr; gap: 1em; align-items: center;">
+<di
+</main>
+<footer>
+<div class="nb-box">
+  <span><span class="nb-small">made with <a href="https://pietroppeter.github.io/nimib/">nimib 🐳</a></span></span>
+  <span></span>
+  <span><button class="nb-small" id="show" onclick="toggleSourceDisplay()">Show Source</button></span>
+</div>
+</footer>
+<section id="source">
+<pre><code class="nohighlight nim hljs"><span class="hljs-keyword">import</span> std/strutils
+<span class="hljs-keyword">import</span> nimib
+<span class="hljs-keyword">import</span> ./lib/codeOutput
+<span class="hljs-keyword">var</span> nbToc: <span class="hljs-type">NbBlock</span>
+<span class="hljs-keyword">var</span> exampleCounter = <span class="hljs-number">0</span>
+<span class="hljs-keyword">var</span> figureCounter = <span class="hljs-number">0</span>
+<span class="hljs-keyword">template</span> addToc =
+  newNbBlock(<span class="hljs-string">&quot;nbText&quot;</span>, <span class="hljs-literal">false</span>, nb, nbToc, <span class="hljs-string">&quot;&quot;</span>):
+    nbToc.output = <span class="hljs-string">&quot;## 目录:</span><span class="hljs-meta">\n</span><span class="hljs-meta">\n</span><span class="hljs-string">&quot;</span>
+<span class="hljs-keyword">template</span> nbNewSection(name:<span class="hljs-built_in">string</span>) =
+  <span class="hljs-keyword">let</span> anchorName = name.toLower.replace(<span class="hljs-string">&quot; &quot;</span>, <span class="hljs-string">&quot;-&quot;</span>)
+  nbText <span class="hljs-string">&quot;&lt;a name=</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&quot;</span> &amp; anchorName &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&gt;&lt;/a &gt;</span><span class="hljs-meta">\n</span><span class="hljs-string">&lt;br&gt;</span><span class="hljs-meta">\n</span><span class="hljs-string">### &quot;</span> &amp; name &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\n</span><span class="hljs-meta">\n</span><span class="hljs-string">---&quot;</span>
+  nbToc.output.add <span class="hljs-string">&quot;1. &lt;a href= &quot;</span><span class="hljs-comment">#&quot; &amp; anchorName &amp; &quot;\&quot;&gt;&quot; &amp; name &amp; &quot;&lt;/a &gt;\n&quot;</span>
+<span class="hljs-keyword">template</span> nbSubSection(name:<span class="hljs-built_in">string</span>) =
+  <span class="hljs-keyword">let</span> anchorName = name.toLower.replace(<span class="hljs-string">&quot; &quot;</span>, <span class="hljs-string">&quot;-&quot;</span>)
+  nbText <span class="hljs-string">&quot;&lt;a name=</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&quot;</span> &amp; anchorName &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&gt;&lt;/a &gt;</span><span class="hljs-meta">\n</span><span class="hljs-string">&lt;br&gt;</span><span class="hljs-meta">\n</span><span class="hljs-string">#### &quot;</span> &amp; name &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\n</span><span class="hljs-meta">\n</span><span class="hljs-string">---&quot;</span>
+  nbToc.output.add <span class="hljs-string">&quot;    * &lt;a href=</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">#&quot;</span> &amp; anchorName &amp; <span class="hljs-string">&quot;</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&gt;&quot;</span> &amp; name &amp; <span class="hljs-string">&quot;&lt;/a &gt;</span><span class="hljs-meta">\n</span><span class="hljs-string">&quot;</span>
+<span class="hljs-keyword">template</span> nbTheorem(name: <span class="hljs-built_in">string</span>, code: <span class="hljs-built_in">untyped</span>) =
+  nbText <span class="hljs-string">&quot;&lt;div style=</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">background: #fff8e1; border: 1px solid #ffd54f; border-radius: 8px; padding: 1.5em; margin: 1.5em 0;</span><span class="hljs-meta">\&quot;</span><span class="hljs-string">&gt;&quot;</span>
+  nbText <span class="hljs-string">&quot;📐 **定理 - &quot;</span> &amp; name &amp; <span class="hljs-string">&quot;**: &quot;</span>
+  code
+  nbText <span class="hljs-string">&quot;&lt;/div&gt;&quot;</span>
+nbInit <span class="hljs-comment"># ----------------------------- START ----------------------------------</span>
+initCodeTheme()
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+# C++ 逆波兰计算器：从原理到实现的完整技术指南
+=================================================
+&lt;br&gt;
+&lt;div style=&quot;text-align: center; color: #666; font-style: italic;&quot;&gt;
+  一份涵盖计算机科学理论、软件工程实践与现代 C++ 编程范式的综合性文档
+&lt;/div&gt;
+&lt;br&gt;
+&gt; &quot;栈是计算机科学中最优雅的数据结构之一，它以其简单的 LIFO 原则解决了复杂的计算问题。&quot;  
+&gt; —— 唐纳德·克努特，《计算机程序设计艺术》
+&lt;div style=&quot;background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2em; border-radius: 12px; margin: 2em 0;&quot;&gt;
+&lt;h3 style=&quot;color: white; margin-top: 0;&quot;&gt;📋 文档目标&lt;/h3&gt;
+&lt;p&gt;本技术文档旨在为读者提供逆波兰计算器实现的完整知识体系，涵盖：&lt;/p &gt;
+&lt;ul&gt;
+&lt;li&gt;🎯 &lt;strong&gt;理论基础&lt;/strong&gt;：逆波兰表示法的数学原理与计算模型&lt;/li&gt;
+&lt;li&gt;🔧 &lt;strong&gt;工程实践&lt;/strong&gt;：现代 C++ 编程范式与设计模式应用&lt;/li&gt;
+&lt;li&gt;🛡️ &lt;strong&gt;健壮性设计&lt;/strong&gt;：异常安全、错误处理与软件可靠性&lt;/li&gt;
+&lt;li&gt;⚡ &lt;strong&gt;性能优化&lt;/strong&gt;：算法复杂度分析与代码优化策略&lt;/li&gt;
+&lt;li&gt;🎨 &lt;strong&gt;用户体验&lt;/strong&gt;：交互式界面设计与用户友好性考量&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&quot;&quot;&quot;</span>
+addToc()
+nbNewSection <span class="hljs-string">&quot;引言与背景知识&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+## 1.1 逆波兰表示法的历史渊源
+逆波兰表示法（Reverse Polish Notation, RPN）由波兰数学家 **扬·武卡谢维奇**（Jan Łukasiewicz）于1920年代提出，是数学表达范式的重要突破。其核心价值在于消除了中缀表达式中的歧义性，为计算机科学的发展奠定了理论基础。
+### 1.1.1 数学表达式的演进
+&lt;div style=&quot;display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1em; margin: 2em 0;&quot;&gt;
+&lt;div style=&quot;background: #f8f9fa; padding: 1em; border-radius: 8px;&quot;&gt;
+&lt;h4&gt;中缀表示法&lt;/h4&gt;
+&lt;code&gt;(3 + 4) × 5 - 6&lt;/code&gt;
+&lt;p style=&quot;font-size: 0.9em; color: #666;&quot;&gt;需要括号明确优先级&lt;/p &gt;
+&lt;/div&gt;
+&lt;div style=&quot;background: #f8f9fa; padding: 1em; border-radius: 8px;&quot;&gt;
+&lt;h4&gt;前缀表示法&lt;/h4&gt;
+&lt;code&gt;- × + 3 4 5 6&lt;/code&gt;
+&lt;p style=&quot;font-size: 0.9em; color: #666;&quot;&gt;运算符在前，波兰表示法&lt;/p &gt;
+&lt;/div&gt;
+&lt;div style=&quot;background: #f8f9fa; padding: 1em; border-radius: 8px;&quot;&gt;
+&lt;h4&gt;后缀表示法&lt;/h4&gt;
+&lt;code&gt;3 4 + 5 × 6 -&lt;/code&gt;
+&lt;p style=&quot;font-size: 0.9em; color: #666;&quot;&gt;运算符在后，逆波兰表示法&lt;/p &gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&quot;&quot;&quot;</span>
+nbSubSection <span class="hljs-string">&quot;理论基础与计算模型&quot;</span>
+nbTheorem <span class="hljs-string">&quot;逆波兰表达式的计算正确性&quot;</span>:
+  nbText: <span class="hljs-string">&quot;&quot;&quot;
+  对于任意合法的逆波兰表达式 &lt;strong&gt;E&lt;/strong&gt;，存在唯一的计算序列使得：
+  &lt;br&gt;&lt;br&gt;
+  &lt;strong&gt;计算结果 = Evaluate(E, ∅)&lt;/strong&gt;
+  &lt;br&gt;&lt;br&gt;
+  其中 Evaluate 函数定义如下：
+  &lt;ul&gt;
+  &lt;li&gt;Evaluate(数字, 栈) = 将数字压入栈&lt;/li&gt;
+  &lt;li&gt;Evaluate(运算符, 栈) = 弹出栈顶两个元素，执行运算，将结果压回栈&lt;/li&gt;
+  &lt;li&gt;Evaluate(ε, 栈) = 栈顶元素（ε 表示空表达式）&lt;/li&gt;
+  &lt;/ul&gt;
+  &quot;&quot;&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+### 1.2.2 计算复杂度分析
+对于包含 n 个标记（token）的逆波兰表达式：
+| 操作类型 | 时间复杂度 | 空间复杂度 | 说明 |
+|---------|-----------|-----------|------|
+| 词法分析 | O(n) | O(1) | 单次遍历 |
+| 栈操作 | O(n) | O(n) | 最坏情况下栈深度为 n/2 |
+| 错误检测 | O(n) | O(1) | 同步进行 |
+| **总体** | **O(n)** | **O(n)** | **线性复杂度** |
+&quot;&quot;&quot;</span>
+nbNewSection <span class="hljs-string">&quot;项目架构与设计理念&quot;</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+## 2.1 软件架构概览
+我们的 C++ 逆波兰计算器采用 **分层架构模式**，将系统划分为四个逻辑层次，每层负责特定的功能职责：
+&lt;div style=&quot;background: white; border: 2px solid #e9ecef; border-radius: 12px; padding: 2em; margin: 2em 0;&quot;&gt;
+&lt;div style=&quot;display: grid; grid-template-columns: 1fr 3fr; gap: 1em; align-items: center;&quot;&gt;
+&lt;di
+&quot;&quot;&quot;</span>
+nbSave()
+nb.filename = <span class="hljs-string">&quot;rpn_manual.html&quot;</span>   <span class="hljs-comment"># ① 指定文件名</span>
+nbSave                             <span class="hljs-comment"># ② 无参保存</span>
+
+</code></pre>
+</section><script>
+function toggleSourceDisplay() {
+  var btn = document.getElementById("show")
+  var source = document.getElementById("source");
+  if (btn.innerHTML=="Show Source") {
+    btn.innerHTML = "Hide Source";
+    source.style.display = "block";
+  } else {
+    btn.innerHTML = "Show Source";
+    source.style.display = "none";
+  }
+}
+</script></body>
+</html>
